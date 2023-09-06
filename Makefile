@@ -83,10 +83,10 @@ publish-noop: ## publish command (no-operation mode)
 # Container Build
 
 build: ## docker build
-	@docker build --file Dockerfile --tag $(DOCKER_IMAGE_NAME):latest --target production .
+	@docker build --file docker/api/Dockerfile --tag $(DOCKER_IMAGE_NAME):latest --target production .
 
 run: ## docker run app
-	@docker run -p $(APP_PORT):80 -it --rm project:latest
+	@docker run -p $(APP_PORT):80 -it --rm $(DOCKER_IMAGE_NAME):latest
 
 run-bash: ## docker run with bash
 	@docker run -it --rm $(DOCKER_IMAGE_NAME):latest /bin/bash
