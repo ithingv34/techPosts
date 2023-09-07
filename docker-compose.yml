@@ -1,0 +1,42 @@
+version: '3.7'
+
+services:
+  # api:
+  #   build:
+  #     context: .
+  #     dockerfile: docker/api/Dockerfile
+  #   container_name: api
+  #   hostname: api
+  #   ports:
+  #     - "8000:80"
+  #   networks:
+  #     - backend
+  #   tty: true
+  #   depends_on:
+  #     - mongo
+
+  mongo:
+    build:
+      context: .
+      dockerfile: docker/mongo/Dockerfile
+    restart: always
+    container_name: mongo
+    hostname: mongo
+    volumes:
+      - mongo-data:/data/db
+      - mongo-config:/data/configdb
+    ports:
+      - 27017:27017
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=admin
+    networks:
+      - backend
+
+volumes:
+  mongo-data:
+  mongo-config:
+
+networks:
+  backend:
+    name: app-network

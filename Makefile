@@ -37,11 +37,11 @@ lint-mypy-report: # run mypy & create report
 
 lint: lint-black lint-isort lint-flake8 lint-mypy ## run all linters
 
-unit-tests:
+test:
 	@pytest --doctest-modules
-unit-tests-cov:
+test-cov:
 	@pytest --doctest-modules --cache-clear --cov=src --cov-report term-missing --cov-report=html
-unit-tests-cov-fail:
+test-cov-fail:
 	@pytest --doctest-modules --cache-clear --cov=src --cov-report term-missing --cov-report=html --cov-fail-under=80 --junitxml=pytest.xml | tee pytest-coverage.txt
 clean-cov:
 	@rm -rf .coverage

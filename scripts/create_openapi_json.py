@@ -3,7 +3,7 @@ from pathlib import Path
 
 from fastapi.openapi.utils import get_openapi
 
-from app.main import app
+from techposts.app.main import app
 
 FOLDER_PATH = Path(__file__).parent.absolute()
 ROOT_PATH = FOLDER_PATH.parent.absolute()

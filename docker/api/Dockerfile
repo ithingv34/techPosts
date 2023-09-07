@@ -1,14 +1,17 @@
-FROM python:3.10-slim as base
+FROM python:3.10.2-slim-buster AS builder
 
 WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update \
+    && apt-get -y install netcat \
+    && apt-get clean
 
 # ignore 'Running pip as the root user...' warning
 ENV PIP_ROOT_USER_ACTION=ignore
 
 # update pip
 RUN pip install --upgrade pip
-
-FROM base as builder
 
 # install poetry
 ENV POETRY_VERSION=1.5.1
@@ -21,7 +24,7 @@ COPY ["src/", "src/"]
 # build wheel
 RUN poetry build --format wheel
 
-FROM base as production
+FROM builder as production
 
 # expose port
 EXPOSE 80
@@ -32,6 +35,7 @@ COPY --from=builder /app/dist/*.whl /app/
 # install package
 RUN pip install /app/*.whl
 
-# command to run
-CMD ["uvicorn", "app.main:app","--host", "0.0.0.0", "--port", "80", "--workers", "1"]
+COPY docker/api/start-dev.sh /app/docker/api/start-dev.sh
+RUN chmod +x /app/docker/api/start-dev.sh
 
+ENTRYPOINT /app/docker/api/start-dev.sh

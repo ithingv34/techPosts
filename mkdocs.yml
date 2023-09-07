@@ -1,4 +1,4 @@
-site_name: Python Project Starter
+site_name: TechPosts
 
 docs_dir: docs
 
@@ -20,7 +20,7 @@ plugins:
       
 nav: [ ]
 
-repo_url: https://github.com/ithingv34/python-project-starter
+repo_url: https://github.com/ithingv34/techPosts
 
 # to navigate with `/site` content correctly
 use_directory_urls: false

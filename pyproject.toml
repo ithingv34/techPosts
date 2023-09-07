@@ -1,19 +1,23 @@
 [tool.poetry]
-name = "app"
+name = "techPosts"
 version = "0.0.1"
 description = ""
 authors = ["ithingv34 <ithingv34@gmail.com>"]
 readme = "README.md"
-homepage = "https://github.com/ithingv34/python-project-starter"
-repository = "https://github.com/ithingv34/python-project-starter"
+homepage = "https://github.com/ithingv34/techPosts"
+repository = "https://github.com/ithingv34/techPosts"
 license = "MIT"
 
 
 [tool.poetry.dependencies]
 python = "^3.10"
-httpx = "^0.24.1"
-fastapi = "0.98.0"
-uvicorn = {extras = ["standrad"], version = "^0.23.2"}
+fastapi = "0.81.0"
+uvicorn = "0.18.3"
+gunicorn = "20.1.0"
+motor = "3.2.0"
+loguru = "^0.7.1"
+python-dotenv = "^1.0.0"
+anyio = "3.7.1"
 
 
 [tool.poetry.group.lint.dependencies]
@@ -24,9 +28,11 @@ mypy = "^1.4.1"
 
 
 [tool.poetry.group.test.dependencies]
-respx = "^0.20.2"
-pytest-asyncio = "^0.21.1"
-trio = "^0.22.2"
+requests = "^2.31.0"
+httpx = "^0.24.1"
+pytest = "7.4.0"
+pytest-env = "0.8.2"
+pytest-asyncio = "0.21.1"
 pytest-cov = "^4.1.0"
 
 
@@ -44,29 +50,50 @@ python-semantic-release = "7.32.2"
 profile = "black"
 
 [tool.mypy]
+plugins = [
+  "pydantic.mypy"
+]
+
+follow_imports = "silent"
+warn_redundant_casts = true
+warn_unused_ignores = true
+check_untyped_defs = true
+no_implicit_reexport = true
+
 # 3rd party import
 ignore_missing_imports = true
+strict_optional = true
+
 # dynamic typing
-disallow_any_unimported = true
+disallow_any_unimported = false
 disallow_any_expr = false
 disallow_any_decorated = false
-disallow_any_explicit = true
+disallow_any_explicit = false
 disallow_any_generics = false
 disallow_subclassing_any = true
+
 # platform
 python_version = "3.10"
+
 # untyped
 disallow_untyped_calls = true
 disallow_untyped_defs = true
 disallow_incomplete_defs = true
 disallow_untyped_decorators = true
+
 # None and Optional
 no_implicit_optional = true
+
 # Warnings
 warn_return_any = false
 warn_unreachable = true
 # Misc
 pretty = true
+
+[tool.pydantic-mypy]
+init_forbid_extra = true
+init_typed = true
+warn_required_dynamic_aliases = true
 
 [tool.pytest.ini_options]
 testpaths = ["src", "tests"]
@@ -79,7 +106,7 @@ exclude_lines = [
 
 [tool.semantic_release]
 branch = "main"
-version_variable = "src/app/__init__.py:__version__"
+version_variable = "src/techposts/__init__.py:__version__"
 version_toml = "pyproject.toml:tool.poetry.version"
 version_source = "tag"
 commit_version_number = true # required for version_source = "tag"
@@ -92,3 +119,6 @@ commit_message = "{version} [skip ci]" # skip triggering ci pipelines for versio
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+start= "src.techposts.run:start"
