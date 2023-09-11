@@ -1,11 +1,11 @@
+import { CssBaseline } from "@mui/material";
+import { useRoutes } from "react-router";
+import routes from "./router";
+
 function App() {
-  return (
-    <>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  );
+  const contents = useRoutes(routes);
+
+  return <CssBaseline>{contents}</CssBaseline>;
 }
 
 export default App;
